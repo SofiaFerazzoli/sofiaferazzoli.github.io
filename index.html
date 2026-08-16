@@ -33,6 +33,48 @@
 
     <link rel="preload" as="image" href="/assets/images/background.webp" type="image/webp" fetchpriority="high">
     <link rel="stylesheet" href="/assets/css/styles.css">
+    <style>
+        .bengal-gallery {
+            display: block !important;
+            width: 100% !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+        }
+
+        .bengal-diptych {
+            display: grid !important;
+            grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+            gap: 1rem !important;
+            width: 100% !important;
+            align-items: start !important;
+        }
+
+        .bengal-photo {
+            position: relative !important;
+            width: 100% !important;
+            aspect-ratio: 1 / 1 !important;
+            border-radius: 50% !important;
+            overflow: hidden !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+        }
+
+        .bengal-photo img {
+            position: absolute !important;
+            inset: 0 !important;
+            display: block !important;
+            width: 100% !important;
+            height: 100% !important;
+            object-fit: cover !important;
+            object-position: center center !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+            transform: none !important;
+            clip-path: none !important;
+            -webkit-clip-path: none !important;
+            filter: none !important;
+        }
+    </style>
     <script src="/assets/js/site.js" defer></script>
 
     <script type="application/ld+json">
@@ -761,7 +803,7 @@
                 </article>
             </div>
 
-            <article class="bengal-feature reveal" aria-labelledby="bengal-title">
+            <article class="bengal-feature" aria-labelledby="bengal-title">
                 <div class="bengal-copy">
                     <p class="bengal-kicker">
                         <span class="lang lang-en">Bengal companions</span>
@@ -780,7 +822,6 @@
                                     alt="Bengal cat playing with a purple feather"
                                     width="1200"
                                     height="818"
-                                    loading="lazy"
                                     decoding="async"
                             >
                         </div>
@@ -790,7 +831,6 @@
                                     alt="Bengal cat playing with a colorful feather toy"
                                     width="1200"
                                     height="793"
-                                    loading="lazy"
                                     decoding="async"
                             >
                         </div>
