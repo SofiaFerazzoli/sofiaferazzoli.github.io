@@ -1,0 +1,423 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#063f46">
+
+    <title>Quantization and sampling — Sofia Ferazzoli</title>
+    <meta name="description" content="A laboratory story about quantization, sampling and the limits of analog-to-digital conversion.">
+    <link rel="canonical" href="https://sofiaferazzoli.github.io/laboratory/quantizzazione-e-campionamento.html">
+
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://sofiaferazzoli.github.io/laboratory/quantizzazione-e-campionamento.html">
+    <meta property="og:title" content="Quantization and sampling — Sofia Ferazzoli">
+    <meta property="og:description" content="Exploring quantization and sampling with a waveform generator and a digital oscilloscope.">
+    <meta property="og:image" content="https://sofiaferazzoli.github.io/assets/images/laboratory/quant_camp/Laboratorio-di-Astrofisica-308-1-scaled.jpg">
+    <meta property="article:published_time" content="2022-03-03">
+    <meta name="twitter:card" content="summary_large_image">
+
+    <link rel="stylesheet" href="../assets/css/styles.css">
+    <script src="../assets/js/site.js" defer></script>
+
+    <style>
+        .lab-story-hero {
+            padding: clamp(9rem, 14vw, 13rem) 0 clamp(4rem, 8vw, 8rem);
+            background: var(--teal-950);
+            color: var(--limestone);
+        }
+
+        .lab-story-hero-inner {
+            display: grid;
+            grid-template-columns: minmax(0, 0.8fr) minmax(20rem, 1.2fr);
+            gap: clamp(3rem, 8vw, 8rem);
+            align-items: end;
+        }
+
+        .lab-story-kicker {
+            margin-bottom: 1.5rem;
+            color: var(--sea-glass);
+            font-family: var(--mono);
+            font-size: 0.69rem;
+            font-weight: 600;
+            letter-spacing: 0.13em;
+            text-transform: uppercase;
+        }
+
+        .lab-story-title {
+            margin-bottom: 2rem;
+            font-family: var(--serif);
+            font-size: clamp(3.4rem, 7.8vw, 8rem);
+            font-weight: 400;
+            letter-spacing: -0.06em;
+            line-height: 0.92;
+        }
+
+        .lab-story-deck {
+            max-width: 39rem;
+            margin-bottom: 2rem;
+            color: rgba(232, 221, 200, 0.75);
+            font-family: var(--serif);
+            font-size: clamp(1.15rem, 2vw, 1.55rem);
+            line-height: 1.45;
+        }
+
+        .lab-story-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.7rem 1.5rem;
+            margin: 0;
+            padding: 1.2rem 0 0;
+            border-top: 1px solid var(--light-line);
+            list-style: none;
+            color: rgba(232, 221, 200, 0.58);
+            font-family: var(--mono);
+            font-size: 0.64rem;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+        }
+
+        .lab-story-figure {
+            margin: 0;
+        }
+
+        .lab-story-image {
+            display: grid;
+            aspect-ratio: 16 / 10;
+            padding: clamp(0.7rem, 1.5vw, 1.2rem);
+            border: 1px solid rgba(232, 221, 200, 0.22);
+            border-radius: var(--radius);
+            background: #fff;
+            place-items: center;
+        }
+
+        .lab-story-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .lab-story-figure figcaption {
+            margin-top: 0.8rem;
+            color: rgba(232, 221, 200, 0.48);
+            font-family: var(--mono);
+            font-size: 0.6rem;
+            letter-spacing: 0.04em;
+        }
+
+        .lab-story-content {
+            padding-block: var(--section-space);
+        }
+
+        .lab-story-layout {
+            display: grid;
+            grid-template-columns: minmax(10rem, 0.38fr) minmax(0, 1fr);
+            gap: clamp(3rem, 8vw, 9rem);
+            align-items: start;
+        }
+
+        .lab-story-aside {
+            position: sticky;
+            top: 8rem;
+        }
+
+        .lab-story-aside p:last-child {
+            color: var(--muted);
+            font-size: 0.86rem;
+        }
+
+        .lab-story-body {
+            max-width: 52rem;
+        }
+
+        .lab-story-body p {
+            margin-bottom: 1.5rem;
+            color: var(--muted);
+            font-size: clamp(1rem, 1.25vw, 1.12rem);
+            line-height: 1.82;
+        }
+
+        .lab-story-body .story-lead {
+            margin-bottom: clamp(2.5rem, 5vw, 4rem);
+            color: var(--ink);
+            font-family: var(--serif);
+            font-size: clamp(1.55rem, 3vw, 2.45rem);
+            letter-spacing: -0.025em;
+            line-height: 1.32;
+        }
+
+        .lab-story-body h2 {
+            margin: clamp(3rem, 6vw, 5rem) 0 1.2rem;
+            font-family: var(--serif);
+            font-size: clamp(2rem, 4vw, 3.6rem);
+            font-weight: 400;
+            letter-spacing: -0.04em;
+            line-height: 1.05;
+        }
+
+        .lab-story-body a:not(.button) {
+            color: var(--teal-700);
+            text-decoration: underline;
+            text-decoration-color: rgba(23, 102, 106, 0.35);
+            text-underline-offset: 0.2em;
+        }
+
+        .lab-story-body a:not(.button):hover {
+            text-decoration-color: currentColor;
+        }
+
+        .lab-story-download {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: clamp(3rem, 6vw, 5rem);
+            padding: clamp(1.5rem, 3vw, 2.5rem);
+            border-radius: var(--radius);
+            background: var(--teal-900);
+            color: var(--limestone);
+        }
+
+        .lab-story-download p {
+            margin: 0;
+            color: rgba(232, 221, 200, 0.68);
+            font-size: 0.9rem;
+        }
+
+        .lab-story-download strong {
+            display: block;
+            margin-bottom: 0.25rem;
+            color: var(--limestone);
+            font-family: var(--serif);
+            font-size: 1.5rem;
+            font-weight: 400;
+        }
+
+        .lab-story-download .button {
+            flex: 0 0 auto;
+        }
+
+        .lab-story-navigation {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            margin-top: clamp(4rem, 8vw, 7rem);
+            border-top: 1px solid var(--line);
+            border-left: 1px solid var(--line);
+        }
+
+        .lab-story-navigation a {
+            min-height: 9rem;
+            padding: clamp(1.25rem, 3vw, 2.25rem);
+            border-right: 1px solid var(--line);
+            border-bottom: 1px solid var(--line);
+            transition: background-color 180ms ease, color 180ms ease;
+        }
+
+        .lab-story-navigation a:hover {
+            background: var(--teal-900);
+            color: var(--limestone);
+        }
+
+        .lab-story-navigation a > span {
+            display: block;
+            margin-bottom: 1rem;
+            color: var(--teal-700);
+            font-family: var(--mono);
+            font-size: 0.62rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .lab-story-navigation strong {
+            font-family: var(--serif);
+            font-size: clamp(1.25rem, 2.2vw, 1.9rem);
+            font-weight: 400;
+            line-height: 1.15;
+        }
+
+        @media (max-width: 820px) {
+            .lab-story-hero-inner,
+            .lab-story-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .lab-story-aside {
+                position: static;
+                padding-bottom: 1.5rem;
+                border-bottom: 1px solid var(--line);
+            }
+        }
+
+        @media (max-width: 560px) {
+            .lab-story-hero {
+                padding-top: 7.5rem;
+            }
+
+            .lab-story-title {
+                font-size: clamp(2.75rem, 12.5vw, 4.4rem);
+            }
+
+            .lab-story-download {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .lab-story-navigation {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "Article",
+            "headline": "Quantizzazione e campionamento",
+            "datePublished": "2022-03-03",
+            "author": {"@type": "Person", "name": "Sofia Ferazzoli"},
+            "image": "https://sofiaferazzoli.github.io/assets/images/laboratory/quant_camp/Laboratorio-di-Astrofisica-308-1-scaled.jpg",
+            "mainEntityOfPage": "https://sofiaferazzoli.github.io/laboratory/quantizzazione-e-campionamento.html"
+        }
+    </script>
+</head>
+
+<body class="lab-story-page">
+<a class="skip-link" href="#main">
+    <span class="lang lang-en">Skip to content</span>
+    <span class="lang lang-it">Vai al contenuto</span>
+</a>
+
+<header class="site-header" data-header>
+    <a class="wordmark" href="../index.html#top" aria-label="Sofia Ferazzoli — home">
+        <span class="wordmark-dot" aria-hidden="true"></span>
+        <span>Sofia Ferazzoli</span>
+    </a>
+
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+        <span class="menu-toggle-label"><span class="lang lang-en">Menu</span><span class="lang lang-it">Menu</span></span>
+        <span class="menu-toggle-lines" aria-hidden="true"></span>
+    </button>
+
+    <nav class="site-nav" id="site-nav" aria-label="Primary navigation">
+        <a href="../index.html#research"><span class="lang lang-en">Research</span><span class="lang lang-it">Ricerca</span></a>
+        <a href="../index.html#publications"><span class="lang lang-en">Publications</span><span class="lang lang-it">Pubblicazioni</span></a>
+        <a href="../index.html#cv">CV</a>
+        <a href="../index.html#outreach">Outreach</a>
+        <a href="../index.html#notes"><span class="lang lang-en">Notes</span><span class="lang lang-it">Appunti</span></a>
+        <a href="../index.html#interests"><span class="lang lang-en">Interests</span><span class="lang lang-it">Interessi</span></a>
+        <a class="nav-contact" href="../index.html#contact"><span class="lang lang-en">Contact</span><span class="lang lang-it">Contatti</span></a>
+    </nav>
+
+    <div class="language-switch" aria-label="Language selection">
+        <button type="button" data-language="it" aria-pressed="false">IT</button>
+        <span aria-hidden="true">/</span>
+        <button type="button" data-language="en" aria-pressed="true">EN</button>
+    </div>
+</header>
+
+<main id="main">
+    <article id="top">
+        <header class="lab-story-hero">
+            <div class="page-shell lab-story-hero-inner">
+                <div>
+                    <p class="lab-story-kicker"><span class="lang lang-en">Laboratory story · Digital electronics</span><span class="lang lang-it">Storia di laboratorio · Elettronica digitale</span></p>
+                    <h1 class="lab-story-title"><span class="lang lang-en">Quantization and sampling</span><span class="lang lang-it">Quantizzazione e campionamento</span></h1>
+                    <p class="lab-story-deck lang lang-en">What is lost when a continuous signal becomes a sequence of numbers?</p>
+                    <p class="lab-story-deck lang lang-it">Che cosa si perde quando un segnale continuo diventa una sequenza di numeri?</p>
+                    <ul class="lab-story-meta">
+                        <li><time datetime="2022-03-03">3 March 2022</time></li>
+                        <li>Sofia Ferazzoli</li>
+                        <li><span class="lang lang-en">Physics · Sapienza</span><span class="lang lang-it">Fisica · Sapienza</span></li>
+                    </ul>
+                </div>
+
+                <figure class="lab-story-figure">
+                    <div class="lab-story-image">
+                        <img src="../assets/images/laboratory/quant_camp/Laboratorio-di-Astrofisica-308-1-scaled.jpg" alt="Hand-drawn frequency-domain diagram showing aliasing caused by an insufficient sampling frequency" width="2560" height="1602" fetchpriority="high">
+                    </div>
+                    <figcaption><span class="lang lang-en">Spectral replicas overlap when the sampling frequency is too low.</span><span class="lang lang-it">Le repliche spettrali si sovrappongono quando la frequenza di campionamento è troppo bassa.</span></figcaption>
+                </figure>
+            </div>
+        </header>
+
+        <section class="lab-story-content" aria-labelledby="story-heading">
+            <div class="page-shell lab-story-layout">
+                <aside class="lab-story-aside">
+                    <p class="detail-label" id="story-heading"><span class="lang lang-en">The experiment</span><span class="lang lang-it">L’esperimento</span></p>
+                    <p class="lang lang-en">Waveform generator · Digital oscilloscope · Analog-to-digital conversion</p>
+                    <p class="lang lang-it">Generatore di forme d’onda · Oscilloscopio digitale · Conversione analogico-digitale</p>
+                </aside>
+
+                <div class="lab-story-body">
+                    <div class="lang lang-en">
+                        <p class="story-lead">This digital electronics experiment explores the limits that appear when an analog signal is transformed into its digital counterpart.</p>
+
+                        <p>The conversion is performed by an <a href="https://en.wikipedia.org/wiki/Analog-to-digital_converter" target="_blank" rel="noopener noreferrer">ADC</a> (analog-to-digital converter), an electronic component that turns a time-varying analog quantity, such as current or voltage, into numbers.</p>
+
+                        <p>Digital instruments are generally simpler, less expensive and more versatile than analog ones. When used correctly they can limit signal degradation, but two effects must be kept under control.</p>
+
+                        <h2>Quantization</h2>
+                        <p>Moving from a continuous to a discrete representation requires the signal to be <a href="https://en.wikipedia.org/wiki/Quantization_(signal_processing)" target="_blank" rel="noopener noreferrer">quantized</a>. The infinitely many values of a continuous function cannot all be represented digitally. The resulting information loss and additional noise are bounded by half of the <a href="https://en.wikipedia.org/wiki/Bit_numbering#Least_significant_bit" target="_blank" rel="noopener noreferrer">LSB</a> (least significant bit).</p>
+
+                        <p>The approximation becomes more severe as the ADC bit depth decreases. The practical solution is to balance a high number of bits against conversion speed: the more bits are used, the slower the conversion tends to be.</p>
+
+                        <h2>Sampling</h2>
+                        <p>During analog-to-digital conversion, a continuous signal cannot be measured at every instant. A time interval must be chosen, producing a discrete sequence of samples. Although it seems natural to sample as rapidly as possible, the minimum useful rate is governed by the <a href="https://en.wikipedia.org/wiki/Nyquist%E2%80%93Shannon_sampling_theorem" target="_blank" rel="noopener noreferrer">Nyquist-Shannon sampling theorem</a>.</p>
+
+                        <p>Using a waveform generator and a digital oscilloscope, we observed the effects produced by quantization and sampling as a signal moves from the analog to the digital domain.</p>
+                    </div>
+
+                    <div class="lang lang-it">
+                        <p class="story-lead">Attraverso questo esperimento di elettronica digitale si sono voluti sondare i limiti che emergono nella trasformazione di un segnale analogico nella sua controparte digitale.</p>
+
+                        <p>La conversione si effettua attraverso un <a href="https://it.wikipedia.org/wiki/Convertitore_analogico-digitale" target="_blank" rel="noopener noreferrer">ADC</a> (Analog to Digital Converter), un componente elettronico che converte un segnale analogico, per esempio una corrente o una tensione variabili nel tempo, in numeri.</p>
+
+                        <p>Gli strumenti digitali risultano in genere più semplici, economici e versatili rispetto a quelli analogici. Se impiegati correttamente consentono di limitare la degradazione del segnale, ma presentano due effetti da tenere sotto controllo.</p>
+
+                        <h2>Quantizzazione</h2>
+                        <p>Nel passaggio dal continuo al discreto il segnale viene <a href="https://it.wikipedia.org/wiki/Quantizzazione_(elettronica)" target="_blank" rel="noopener noreferrer">quantizzato</a>. Non tutti gli infiniti valori assunti da una funzione continua possono essere rappresentati digitalmente. La perdita di informazione e il rumore aggiuntivo generati dal processo sono limitati a metà del <a href="https://it.wikipedia.org/wiki/Bit_meno_significativo" target="_blank" rel="noopener noreferrer">LSB</a> (Least Significant Bit).</p>
+
+                        <p>L’approssimazione è tanto più drastica quanto minore è il numero di bit dell’ADC. Occorre quindi trovare il giusto compromesso tra un numero elevato di bit e la velocità della conversione: maggiore è il numero di bit, più lenta tende a essere la conversione.</p>
+
+                        <h2>Campionamento</h2>
+                        <p>Nella conversione da analogico a digitale non è possibile prelevare il segnale continuo in qualunque istante. Si deve fissare un intervallo di tempo entro cui misurarlo, ottenendo così una sequenza discreta di campioni. Benché sembri naturale campionare il più velocemente possibile, la frequenza minima utile è regolata dal <a href="https://it.wikipedia.org/wiki/Teorema_del_campionamento_di_Nyquist-Shannon" target="_blank" rel="noopener noreferrer">teorema di Nyquist-Shannon</a>.</p>
+
+                        <p>Attraverso un generatore di forme d’onda e un oscilloscopio digitale si sono osservati gli effetti che quantizzazione e campionamento producono nel passaggio di un segnale dal dominio analogico a quello digitale.</p>
+                    </div>
+
+                    <div class="lab-story-download">
+                        <p><strong><span class="lang lang-en">Read the full report</span><span class="lang lang-it">Leggi la relazione completa</span></strong><span class="lang lang-en">Six pages with the experimental setup, measurements and conclusions.</span><span class="lang lang-it">Sei pagine con apparato sperimentale, misure e conclusioni.</span></p>
+                        <a class="button button-light" href="../assets/images/laboratory/quant_camp/Quantizzazione_e_Campionamento.pdf" target="_blank" rel="noopener noreferrer"><span class="lang lang-en">Open PDF</span><span class="lang lang-it">Apri il PDF</span><span aria-hidden="true">↗</span></a>
+                    </div>
+
+                    <nav class="lab-story-navigation" aria-label="Laboratory stories">
+                        <a href="../index.html#notes"><span><span class="lang lang-en">Back to</span><span class="lang lang-it">Torna a</span></span><strong><span class="lang lang-en">Open notes</span><span class="lang lang-it">Appunti aperti</span></strong></a>
+                        <a href="coerenza-laser-he-ne.html"><span><span class="lang lang-en">Next story</span><span class="lang lang-it">Storia successiva</span></span><strong><span class="lang lang-en">Coherence of a He-Ne laser</span><span class="lang lang-it">Coerenza di un laser He-Ne</span></strong></a>
+                    </nav>
+                </div>
+            </div>
+        </section>
+    </article>
+</main>
+
+<footer class="site-footer">
+    <div class="page-shell footer-inner">
+        <p>© <span data-current-year>2026</span> Sofia Ferazzoli</p>
+        <p class="footer-note"><span class="lang lang-en">Built for GitHub Pages · No tracking, no cookies</span><span class="lang lang-it">Creato per GitHub Pages · Nessun tracciamento, nessun cookie</span></p>
+        <a href="#top"><span class="lang lang-en">Back to top</span><span class="lang lang-it">Torna su</span> <span aria-hidden="true">↑</span></a>
+    </div>
+</footer>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const titles = {
+            en: "Quantization and sampling — Sofia Ferazzoli",
+            it: "Quantizzazione e campionamento — Sofia Ferazzoli"
+        };
+        const syncTitle = () => { document.title = titles[document.documentElement.lang] || titles.en; };
+        syncTitle();
+        document.querySelectorAll("[data-language]").forEach((button) => button.addEventListener("click", syncTitle));
+    });
+</script>
+</body>
+</html>

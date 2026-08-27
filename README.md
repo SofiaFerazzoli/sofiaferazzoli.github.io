@@ -1,7 +1,6 @@
 # Sofia Ferazzoli — academic portfolio
 
-A lightweight academic portfolio. It uses plain HTML, CSS and a small amount of JavaScript, with no external libraries, tracking or cookies.
-
+---
 ## What is included
 
 - English / Italian language switch

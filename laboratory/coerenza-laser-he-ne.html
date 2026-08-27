@@ -1,0 +1,423 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#063f46">
+
+    <title>Coherence of a He-Ne laser — Sofia Ferazzoli</title>
+    <meta name="description" content="A laboratory story about measuring the coherence of a helium-neon laser with a Michelson interferometer.">
+    <link rel="canonical" href="https://sofiaferazzoli.github.io/laboratory/coerenza-laser-he-ne.html">
+
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://sofiaferazzoli.github.io/laboratory/coerenza-laser-he-ne.html">
+    <meta property="og:title" content="Coherence of a He-Ne laser — Sofia Ferazzoli">
+    <meta property="og:description" content="Studying the coherence of laser light with a Michelson interferometer.">
+    <meta property="og:image" content="https://sofiaferazzoli.github.io/assets/images/laboratory/laser/michelson-4.jpg">
+    <meta property="article:published_time" content="2021-09-17">
+    <meta name="twitter:card" content="summary_large_image">
+
+    <link rel="stylesheet" href="../assets/css/styles.css">
+    <script src="../assets/js/site.js" defer></script>
+
+    <style>
+        .lab-story-hero {
+            padding: clamp(9rem, 14vw, 13rem) 0 clamp(4rem, 8vw, 8rem);
+            background: var(--teal-950);
+            color: var(--limestone);
+        }
+
+        .lab-story-hero-inner {
+            display: grid;
+            grid-template-columns: minmax(0, 0.8fr) minmax(20rem, 1.2fr);
+            gap: clamp(3rem, 8vw, 8rem);
+            align-items: end;
+        }
+
+        .lab-story-kicker {
+            margin-bottom: 1.5rem;
+            color: var(--sea-glass);
+            font-family: var(--mono);
+            font-size: 0.69rem;
+            font-weight: 600;
+            letter-spacing: 0.13em;
+            text-transform: uppercase;
+        }
+
+        .lab-story-title {
+            margin-bottom: 2rem;
+            font-family: var(--serif);
+            font-size: clamp(3.2rem, 7vw, 7.4rem);
+            font-weight: 400;
+            letter-spacing: -0.06em;
+            line-height: 0.92;
+        }
+
+        .nowrap {
+            white-space: nowrap;
+        }
+
+        .lab-story-deck {
+            max-width: 39rem;
+            margin-bottom: 2rem;
+            color: rgba(232, 221, 200, 0.75);
+            font-family: var(--serif);
+            font-size: clamp(1.15rem, 2vw, 1.55rem);
+            line-height: 1.45;
+        }
+
+        .lab-story-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.7rem 1.5rem;
+            margin: 0;
+            padding: 1.2rem 0 0;
+            border-top: 1px solid var(--light-line);
+            list-style: none;
+            color: rgba(232, 221, 200, 0.58);
+            font-family: var(--mono);
+            font-size: 0.64rem;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+        }
+
+        .lab-story-figure {
+            margin: 0;
+        }
+
+        .lab-story-image {
+            display: grid;
+            aspect-ratio: 16 / 10;
+            padding: clamp(1.2rem, 3vw, 2.4rem);
+            border: 1px solid rgba(232, 221, 200, 0.22);
+            border-radius: var(--radius);
+            background: #fff;
+            place-items: center;
+        }
+
+        .lab-story-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .lab-story-figure figcaption {
+            margin-top: 0.8rem;
+            color: rgba(232, 221, 200, 0.48);
+            font-family: var(--mono);
+            font-size: 0.6rem;
+            letter-spacing: 0.04em;
+        }
+
+        .lab-story-content {
+            padding-block: var(--section-space);
+        }
+
+        .lab-story-layout {
+            display: grid;
+            grid-template-columns: minmax(10rem, 0.38fr) minmax(0, 1fr);
+            gap: clamp(3rem, 8vw, 9rem);
+            align-items: start;
+        }
+
+        .lab-story-aside {
+            position: sticky;
+            top: 8rem;
+        }
+
+        .lab-story-aside p:last-child {
+            color: var(--muted);
+            font-size: 0.86rem;
+        }
+
+        .lab-story-body {
+            max-width: 52rem;
+        }
+
+        .lab-story-body p {
+            margin-bottom: 1.5rem;
+            color: var(--muted);
+            font-size: clamp(1rem, 1.25vw, 1.12rem);
+            line-height: 1.82;
+        }
+
+        .lab-story-body .story-lead {
+            margin-bottom: clamp(2.5rem, 5vw, 4rem);
+            color: var(--ink);
+            font-family: var(--serif);
+            font-size: clamp(1.55rem, 3vw, 2.45rem);
+            letter-spacing: -0.025em;
+            line-height: 1.32;
+        }
+
+        .lab-story-body h2 {
+            margin: clamp(3rem, 6vw, 5rem) 0 1.2rem;
+            font-family: var(--serif);
+            font-size: clamp(2rem, 4vw, 3.6rem);
+            font-weight: 400;
+            letter-spacing: -0.04em;
+            line-height: 1.05;
+        }
+
+        .lab-story-body a:not(.button) {
+            color: var(--teal-700);
+            text-decoration: underline;
+            text-decoration-color: rgba(23, 102, 106, 0.35);
+            text-underline-offset: 0.2em;
+        }
+
+        .lab-story-body a:not(.button):hover {
+            text-decoration-color: currentColor;
+        }
+
+        .lab-story-download {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: clamp(3rem, 6vw, 5rem);
+            padding: clamp(1.5rem, 3vw, 2.5rem);
+            border-radius: var(--radius);
+            background: var(--teal-900);
+            color: var(--limestone);
+        }
+
+        .lab-story-download p {
+            margin: 0;
+            color: rgba(232, 221, 200, 0.68);
+            font-size: 0.9rem;
+        }
+
+        .lab-story-download strong {
+            display: block;
+            margin-bottom: 0.25rem;
+            color: var(--limestone);
+            font-family: var(--serif);
+            font-size: 1.5rem;
+            font-weight: 400;
+        }
+
+        .lab-story-download .button {
+            flex: 0 0 auto;
+        }
+
+        .lab-story-navigation {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            margin-top: clamp(4rem, 8vw, 7rem);
+            border-top: 1px solid var(--line);
+            border-left: 1px solid var(--line);
+        }
+
+        .lab-story-navigation a {
+            min-height: 9rem;
+            padding: clamp(1.25rem, 3vw, 2.25rem);
+            border-right: 1px solid var(--line);
+            border-bottom: 1px solid var(--line);
+            transition: background-color 180ms ease, color 180ms ease;
+        }
+
+        .lab-story-navigation a:hover {
+            background: var(--teal-900);
+            color: var(--limestone);
+        }
+
+        .lab-story-navigation a > span {
+            display: block;
+            margin-bottom: 1rem;
+            color: var(--teal-700);
+            font-family: var(--mono);
+            font-size: 0.62rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .lab-story-navigation strong {
+            font-family: var(--serif);
+            font-size: clamp(1.25rem, 2.2vw, 1.9rem);
+            font-weight: 400;
+            line-height: 1.15;
+        }
+
+        @media (max-width: 820px) {
+            .lab-story-hero-inner,
+            .lab-story-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .lab-story-aside {
+                position: static;
+                padding-bottom: 1.5rem;
+                border-bottom: 1px solid var(--line);
+            }
+        }
+
+        @media (max-width: 560px) {
+            .lab-story-hero {
+                padding-top: 7.5rem;
+            }
+
+            .lab-story-title {
+                font-size: clamp(2.8rem, 13vw, 4.5rem);
+            }
+
+            .lab-story-download {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .lab-story-navigation {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "Article",
+            "headline": "Studio della coerenza di un laser ad He-Ne attraverso un interferometro di Michelson",
+            "datePublished": "2021-09-17",
+            "author": {"@type": "Person", "name": "Sofia Ferazzoli"},
+            "image": "https://sofiaferazzoli.github.io/assets/images/laboratory/laser/michelson-4.jpg",
+            "mainEntityOfPage": "https://sofiaferazzoli.github.io/laboratory/coerenza-laser-he-ne.html"
+        }
+    </script>
+</head>
+
+<body class="lab-story-page">
+<a class="skip-link" href="#main">
+    <span class="lang lang-en">Skip to content</span>
+    <span class="lang lang-it">Vai al contenuto</span>
+</a>
+
+<header class="site-header" data-header>
+    <a class="wordmark" href="../index.html#top" aria-label="Sofia Ferazzoli — home">
+        <span class="wordmark-dot" aria-hidden="true"></span>
+        <span>Sofia Ferazzoli</span>
+    </a>
+
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+        <span class="menu-toggle-label"><span class="lang lang-en">Menu</span><span class="lang lang-it">Menu</span></span>
+        <span class="menu-toggle-lines" aria-hidden="true"></span>
+    </button>
+
+    <nav class="site-nav" id="site-nav" aria-label="Primary navigation">
+        <a href="../index.html#research"><span class="lang lang-en">Research</span><span class="lang lang-it">Ricerca</span></a>
+        <a href="../index.html#publications"><span class="lang lang-en">Publications</span><span class="lang lang-it">Pubblicazioni</span></a>
+        <a href="../index.html#cv">CV</a>
+        <a href="../index.html#outreach">Outreach</a>
+        <a href="../index.html#notes"><span class="lang lang-en">Notes</span><span class="lang lang-it">Appunti</span></a>
+        <a href="../index.html#interests"><span class="lang lang-en">Interests</span><span class="lang lang-it">Interessi</span></a>
+        <a class="nav-contact" href="../index.html#contact"><span class="lang lang-en">Contact</span><span class="lang lang-it">Contatti</span></a>
+    </nav>
+
+    <div class="language-switch" aria-label="Language selection">
+        <button type="button" data-language="it" aria-pressed="false">IT</button>
+        <span aria-hidden="true">/</span>
+        <button type="button" data-language="en" aria-pressed="true">EN</button>
+    </div>
+</header>
+
+<main id="main">
+    <article id="top">
+        <header class="lab-story-hero">
+            <div class="page-shell lab-story-hero-inner">
+                <div>
+                    <p class="lab-story-kicker"><span class="lang lang-en">Laboratory story · Optics</span><span class="lang lang-it">Storia di laboratorio · Ottica</span></p>
+                    <h1 class="lab-story-title"><span class="lang lang-en">Coherence of a <span class="nowrap">He-Ne</span> laser</span><span class="lang lang-it">Coerenza di un laser <span class="nowrap">He-Ne</span></span></h1>
+                    <p class="lab-story-deck lang lang-en">Measuring the coherence of laser light through interference.</p>
+                    <p class="lab-story-deck lang lang-it">Misurare la coerenza della luce laser attraverso l’interferenza.</p>
+                    <ul class="lab-story-meta">
+                        <li><time datetime="2021-09-17">17 September 2021</time></li>
+                        <li>Sofia Ferazzoli</li>
+                        <li><span class="lang lang-en">Physics · Sapienza</span><span class="lang lang-it">Fisica · Sapienza</span></li>
+                    </ul>
+                </div>
+
+                <figure class="lab-story-figure">
+                    <div class="lab-story-image">
+                        <img src="../assets/images/laboratory/laser/michelson-4.jpg" alt="Hand-drawn diagram of a Michelson interferometer with a laser, beam splitter, two mirrors and a screen" width="479" height="395" fetchpriority="high">
+                    </div>
+                    <figcaption><span class="lang lang-en">The Michelson interferometer splits and recombines the laser beam.</span><span class="lang lang-it">L’interferometro di Michelson divide e ricombina il fascio laser.</span></figcaption>
+                </figure>
+            </div>
+        </header>
+
+        <section class="lab-story-content" aria-labelledby="story-heading">
+            <div class="page-shell lab-story-layout">
+                <aside class="lab-story-aside">
+                    <p class="detail-label" id="story-heading"><span class="lang lang-en">The experiment</span><span class="lang lang-it">L’esperimento</span></p>
+                    <p class="lang lang-en">He-Ne laser · Michelson interferometer · Oscilloscope</p>
+                    <p class="lang lang-it">Laser He-Ne · Interferometro di Michelson · Oscilloscopio</p>
+                </aside>
+
+                <div class="lab-story-body">
+                    <div class="lang lang-en">
+                        <p class="story-lead">This experiment studies the coherence of laser light produced by a helium-neon active medium using a Michelson interferometer.</p>
+
+                        <p>The <a href="https://en.wikipedia.org/wiki/Michelson_interferometer" target="_blank" rel="noopener noreferrer">Michelson interferometer</a> uses a beam splitter and two mirrors to divide the laser beam into two separate paths. At its output, a screen shows the interference pattern created when the beams recombine.</p>
+
+                        <h2>The physics of the experiment</h2>
+                        <p>The <a href="https://en.wikipedia.org/wiki/Laser" target="_blank" rel="noopener noreferrer">laser</a> mechanism relies on the stimulated emission of photons. A <a href="https://en.wikipedia.org/wiki/Photon" target="_blank" rel="noopener noreferrer">photon</a> is the quantum, particle-like description of light; through wave-particle duality, light can also be described as an <a href="https://en.wikipedia.org/wiki/Electromagnetic_radiation" target="_blank" rel="noopener noreferrer">electromagnetic wave</a>.</p>
+
+                        <p>Spontaneously emitted photons have random phases. Without a stable <a href="https://en.wikipedia.org/wiki/Phase_(waves)" target="_blank" rel="noopener noreferrer">phase</a> relationship, the resulting light is not coherent.</p>
+
+                        <h2>From emission to coherence</h2>
+                        <p>A <a href="https://en.wikipedia.org/wiki/Fabry%E2%80%93P%C3%A9rot_interferometer" target="_blank" rel="noopener noreferrer">Fabry-Pérot cavity</a> surrounds the active medium. The light repeatedly travels between two mirrors, selecting resonant modes and turning the initially stochastic emission process into a highly coherent beam.</p>
+
+                        <p>The coherent light is then sent into the Michelson interferometer. Circular fringes appear on the screen, and their intensity is measured with an <a href="https://en.wikipedia.org/wiki/Oscilloscope" target="_blank" rel="noopener noreferrer">oscilloscope</a>. These measurements allow the degree of coherence of the laser light to be estimated.</p>
+                    </div>
+
+                    <div class="lang lang-it">
+                        <p class="story-lead">Attraverso questo esperimento si è studiata la coerenza della luce laser generata da un mezzo attivo a elio-neon mediante un interferometro di Michelson.</p>
+
+                        <p>L’<a href="https://it.wikipedia.org/wiki/Interferometro_di_Michelson" target="_blank" rel="noopener noreferrer">interferometro di Michelson</a> usa uno specchio semiriflettente e due specchi per dividere il raggio laser in due percorsi distinti. All’uscita, uno schermo mostra la figura d’interferenza prodotta dalla ricombinazione dei fasci.</p>
+
+                        <h2>La fisica dell’esperimento</h2>
+                        <p>Alla base del meccanismo <a href="https://it.wikipedia.org/wiki/Laser" target="_blank" rel="noopener noreferrer">laser</a> c’è l’emissione stimolata di fotoni. Il <a href="https://it.wikipedia.org/wiki/Fotone" target="_blank" rel="noopener noreferrer">fotone</a> è l’interpretazione quantistica, o corpuscolare, della luce; in virtù del dualismo onda-particella, la luce può essere descritta anche come un’<a href="https://it.wikipedia.org/wiki/Radiazione_elettromagnetica" target="_blank" rel="noopener noreferrer">onda elettromagnetica</a>.</p>
+
+                        <p>I fotoni emessi spontaneamente hanno fasi casuali. Senza una relazione di <a href="https://it.wikipedia.org/wiki/Fase_(segnali)" target="_blank" rel="noopener noreferrer">fase</a> stabile, la luce risultante non è coerente.</p>
+
+                        <h2>Dall’emissione alla coerenza</h2>
+                        <p>Il mezzo attivo è inserito in una <a href="https://it.wikipedia.org/wiki/Interferometro_di_Fabry-P%C3%A9rot" target="_blank" rel="noopener noreferrer">cavità Fabry-Pérot</a>. La luce rimbalza ripetutamente tra due specchi, selezionando i modi risonanti e trasformando il processo inizialmente stocastico di emissione in un fascio altamente coerente.</p>
+
+                        <p>La luce coerente viene quindi immessa nell’interferometro di Michelson. Sullo schermo compaiono le caratteristiche frange circolari, la cui intensità viene misurata attraverso un <a href="https://it.wikipedia.org/wiki/Oscilloscopio" target="_blank" rel="noopener noreferrer">oscilloscopio</a>. Da queste misure si può ricavare il grado di coerenza della luce laser.</p>
+                    </div>
+
+                    <div class="lab-story-download">
+                        <p><strong><span class="lang lang-en">Read the full report</span><span class="lang lang-it">Leggi la relazione completa</span></strong><span class="lang lang-en">Three pages with theory, experimental method and results.</span><span class="lang lang-it">Tre pagine con teoria, metodo sperimentale e risultati.</span></p>
+                        <a class="button button-light" href="../assets/images/laboratory/laser/Ferazzoli_Sofia_Relazione_Michelson-1.pdf" target="_blank" rel="noopener noreferrer"><span class="lang lang-en">Open PDF</span><span class="lang lang-it">Apri il PDF</span><span aria-hidden="true">↗</span></a>
+                    </div>
+
+                    <nav class="lab-story-navigation" aria-label="Laboratory stories">
+                        <a href="quantizzazione-e-campionamento.html"><span><span class="lang lang-en">Previous story</span><span class="lang lang-it">Storia precedente</span></span><strong><span class="lang lang-en">Quantization and sampling</span><span class="lang lang-it">Quantizzazione e campionamento</span></strong></a>
+                        <a href="../index.html#notes"><span><span class="lang lang-en">Back to</span><span class="lang lang-it">Torna a</span></span><strong><span class="lang lang-en">Open notes</span><span class="lang lang-it">Appunti aperti</span></strong></a>
+                    </nav>
+                </div>
+            </div>
+        </section>
+    </article>
+</main>
+
+<footer class="site-footer">
+    <div class="page-shell footer-inner">
+        <p>© <span data-current-year>2026</span> Sofia Ferazzoli</p>
+        <p class="footer-note"><span class="lang lang-en">Built for GitHub Pages · No tracking, no cookies</span><span class="lang lang-it">Creato per GitHub Pages · Nessun tracciamento, nessun cookie</span></p>
+        <a href="#top"><span class="lang lang-en">Back to top</span><span class="lang lang-it">Torna su</span> <span aria-hidden="true">↑</span></a>
+    </div>
+</footer>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const titles = {
+            en: "Coherence of a He-Ne laser — Sofia Ferazzoli",
+            it: "Coerenza di un laser He-Ne — Sofia Ferazzoli"
+        };
+        const syncTitle = () => { document.title = titles[document.documentElement.lang] || titles.en; };
+        syncTitle();
+        document.querySelectorAll("[data-language]").forEach((button) => button.addEventListener("click", syncTitle));
+    });
+</script>
+</body>
+</html>
