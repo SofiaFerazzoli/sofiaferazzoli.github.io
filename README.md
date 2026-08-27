@@ -1,6 +1,5 @@
 # Sofia Ferazzoli — academic portfolio
 
----
 ## What is included
 
 - English / Italian language switch
