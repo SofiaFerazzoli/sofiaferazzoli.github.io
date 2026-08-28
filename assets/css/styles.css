@@ -1693,7 +1693,8 @@ html[lang="it"] .lang-it {
 
 @media (max-width: 560px) {
   .site-header {
-    grid-template-columns: 1fr auto;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    gap: 0.9rem;
   }
 
   .wordmark span:last-child {
@@ -1701,20 +1702,24 @@ html[lang="it"] .lang-it {
   }
 
   .language-switch {
-    position: fixed;
-    z-index: 110;
-    right: var(--page-pad);
-    bottom: 1rem;
-    padding: 0.45rem 0.65rem;
-    border: 1px solid rgba(232, 221, 200, 0.35);
-    border-radius: 100vmax;
-    background: rgba(3, 43, 49, 0.88);
-    color: var(--limestone);
-    backdrop-filter: blur(10px);
+    position: static;
+    grid-column: 2;
+    grid-row: 1;
+    justify-self: start;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    backdrop-filter: none;
+  }
+
+  .language-switch button {
+    min-width: 2rem;
+    min-height: 2rem;
   }
 
   .menu-toggle {
-    grid-column: 2;
+    grid-column: 3;
   }
 
   .hero {
