@@ -963,11 +963,16 @@ html[lang="it"] .lang-it {
 
 .cv-visit {
   display: grid;
-  grid-template-columns: minmax(8rem, 0.35fr) minmax(0, 1fr);
+  grid-template-columns: minmax(7rem, 0.28fr) minmax(0, 1fr) minmax(13rem, 0.42fr);
   gap: clamp(1.5rem, 4vw, 4.5rem);
+  align-items: center;
   padding: clamp(2rem, 4vw, 3.5rem);
   border: 1px solid var(--line);
   background: linear-gradient(135deg, rgba(115, 182, 174, 0.1), rgba(201, 151, 101, 0.08));
+}
+
+.cv-visit > .timeline-date {
+  align-self: start;
 }
 
 .cv-visit-body h4 {
@@ -992,6 +997,120 @@ html[lang="it"] .lang-it {
   font-weight: 600;
   letter-spacing: 0.07em;
   text-transform: uppercase;
+}
+
+.cv-visit-gallery {
+  width: min(100%, 19rem);
+  min-width: 0;
+  justify-self: end;
+}
+
+.cv-gallery-track {
+  display: flex;
+  width: 100%;
+  aspect-ratio: 1;
+  overflow-x: auto;
+  border-radius: 50%;
+  outline: none;
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+
+.cv-gallery-track::-webkit-scrollbar {
+  display: none;
+}
+
+.cv-gallery-track:focus-visible {
+  outline: 2px solid var(--teal-700);
+  outline-offset: 0.35rem;
+}
+
+.cv-gallery-slide {
+  flex: 0 0 100%;
+  width: 100%;
+  margin: 0;
+  scroll-snap-align: center;
+  scroll-snap-stop: always;
+}
+
+.cv-gallery-photo {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1;
+  overflow: hidden;
+  border: 1px solid rgba(201, 151, 101, 0.72);
+  border-radius: 50%;
+  background: var(--paper);
+  isolation: isolate;
+}
+
+.cv-gallery-photo::before,
+.cv-gallery-photo::after {
+  position: absolute;
+  content: "";
+}
+
+.cv-gallery-photo::before {
+  z-index: -2;
+  inset: -12%;
+  background-image: var(--gallery-image);
+  background-position: center;
+  background-size: cover;
+  filter: blur(16px) saturate(80%) brightness(74%);
+  transform: scale(1.12);
+}
+
+.cv-gallery-photo::after {
+  z-index: -1;
+  inset: 0;
+  background: rgba(3, 43, 49, 0.12);
+}
+
+.cv-gallery-photo img {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: var(--gallery-position, center);
+}
+
+.cv-gallery-controls {
+  display: grid;
+  grid-template-columns: 2.45rem 1fr 2.45rem;
+  gap: 0.75rem;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.cv-gallery-button {
+  display: grid;
+  width: 2.45rem;
+  height: 2.45rem;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  color: var(--teal-950);
+  place-items: center;
+  transition: background-color 180ms ease, color 180ms ease, transform 180ms ease;
+}
+
+.cv-gallery-button:hover {
+  background: var(--teal-950);
+  color: var(--limestone);
+  transform: translateY(-2px);
+}
+
+.cv-gallery-status {
+  color: var(--teal-700);
+  font-family: var(--mono);
+  font-size: 0.64rem;
+  font-weight: 650;
+  letter-spacing: 0.08em;
+  text-align: center;
 }
 
 .cv-development-grid {
@@ -1064,6 +1183,53 @@ html[lang="it"] .lang-it {
   margin-bottom: 0;
   color: var(--muted);
   font-size: 0.86rem;
+}
+
+.school-entry-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(8.5rem, 10.75rem);
+  gap: clamp(1.25rem, 2.5vw, 2.25rem);
+  align-items: center;
+}
+
+.school-entry-featured h5 {
+  font-size: clamp(1.35rem, 1.6vw, 1.65rem);
+}
+
+.school-entry-copy > p:last-child {
+  margin-bottom: 0;
+  color: var(--muted);
+  font-size: 0.86rem;
+}
+
+.school-gallery {
+  min-width: 0;
+  width: 100%;
+  justify-self: end;
+}
+
+.school-gallery .cv-gallery-controls {
+  grid-template-columns: 2rem 1fr 2rem;
+  gap: 0.45rem;
+  margin-top: 0.7rem;
+}
+
+.school-gallery .cv-gallery-button {
+  width: 2rem;
+  height: 2rem;
+  font-size: 0.8rem;
+}
+
+.school-gallery .cv-gallery-status {
+  font-size: 0.56rem;
+}
+
+.school-gallery-credit {
+  margin: 0.65rem 0 0;
+  color: var(--muted);
+  font-size: 0.58rem;
+  line-height: 1.35;
+  text-align: center;
 }
 
 .cv-details {
@@ -1644,11 +1810,14 @@ html[lang="it"] .lang-it {
 .contact-portrait-frame img {
   position: absolute;
   z-index: 1;
-  inset: 8%;
+  inset: 0 13%;
   display: block;
-  width: 84%;
-  height: 84%;
-  object-fit: contain;
+  width: 74%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 52% 56%;
+  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 8%, #000 92%, transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0, #000 8%, #000 92%, transparent 100%);
 }
 
 .contact-portrait figcaption {
@@ -1795,6 +1964,17 @@ html[lang="it"] .lang-it {
 
   .support-card .button {
     grid-column: 1 / -1;
+    justify-self: start;
+  }
+
+  .cv-visit {
+    grid-template-columns: minmax(7rem, 0.28fr) minmax(0, 1fr);
+  }
+
+  .cv-visit-gallery {
+    grid-column: 2;
+    width: min(100%, 18rem);
+    margin-top: 1rem;
     justify-self: start;
   }
 }
@@ -2048,6 +2228,23 @@ html[lang="it"] .lang-it {
     padding: 1.5rem;
   }
 
+  .cv-visit-gallery {
+    grid-column: 1;
+    width: min(100%, 17rem);
+    margin-top: 1.25rem;
+    justify-self: center;
+  }
+
+  .school-entry-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .school-gallery {
+    width: min(100%, 15rem);
+    margin-top: 0.5rem;
+    justify-self: center;
+  }
+
   .timeline-date,
   .outreach-date {
     margin-bottom: 0;
@@ -2127,6 +2324,10 @@ html[lang="it"] .lang-it {
   .motion-ready .reveal {
     opacity: 1;
     transform: none;
+  }
+
+  .cv-gallery-track {
+    scroll-behavior: auto;
   }
 }
 

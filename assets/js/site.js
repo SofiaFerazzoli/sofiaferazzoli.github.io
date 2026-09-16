@@ -149,6 +149,64 @@
     }, 3200);
   });
 
+  const galleries = [...document.querySelectorAll("[data-gallery]")];
+  galleries.forEach((gallery) => {
+    const track = gallery.querySelector("[data-gallery-track]");
+    const slides = [...gallery.querySelectorAll(".cv-gallery-slide")];
+    const previousButton = gallery.querySelector("[data-gallery-previous]");
+    const nextButton = gallery.querySelector("[data-gallery-next]");
+    const currentLabel = gallery.querySelector("[data-gallery-current]");
+
+    if (!track || slides.length === 0) return;
+
+    let activeIndex = 0;
+    let scrollFrame = null;
+
+    const updateStatus = (index) => {
+      activeIndex = index;
+      if (currentLabel) currentLabel.textContent = String(index + 1).padStart(2, "0");
+    };
+
+    const showSlide = (index, behavior = prefersReducedMotion ? "auto" : "smooth") => {
+      const normalizedIndex = (index + slides.length) % slides.length;
+      track.scrollTo({ left: track.clientWidth * normalizedIndex, behavior });
+      updateStatus(normalizedIndex);
+    };
+
+    previousButton?.addEventListener("click", () => showSlide(activeIndex - 1));
+    nextButton?.addEventListener("click", () => showSlide(activeIndex + 1));
+
+    track.addEventListener("keydown", (event) => {
+      if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) return;
+      event.preventDefault();
+
+      if (event.key === "ArrowLeft") showSlide(activeIndex - 1);
+      if (event.key === "ArrowRight") showSlide(activeIndex + 1);
+      if (event.key === "Home") showSlide(0);
+      if (event.key === "End") showSlide(slides.length - 1);
+    });
+
+    track.addEventListener(
+      "scroll",
+      () => {
+        if (scrollFrame !== null) return;
+        scrollFrame = window.requestAnimationFrame(() => {
+          const closestIndex = Math.min(
+            slides.length - 1,
+            Math.max(0, Math.round(track.scrollLeft / track.clientWidth))
+          );
+
+          updateStatus(closestIndex);
+          scrollFrame = null;
+        });
+      },
+      { passive: true }
+    );
+
+    window.addEventListener("resize", () => showSlide(activeIndex, "auto"));
+    updateStatus(0);
+  });
+
   const revealItems = [...document.querySelectorAll(".reveal")];
   if (!prefersReducedMotion && "IntersectionObserver" in window) {
     root.classList.add("motion-ready");
